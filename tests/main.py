@@ -16,7 +16,21 @@ def test_tasks(api):
 
 def test_vms(api):
     '''Performs non-destructive VMs tests'''
-    api.vms.list()
+    objs = api.vms.list()
+    for obj in objs:
+        api.vms.tags.list(obj.get('id'))
+#        tags_obj = api.vms.tags.list(obj.get('id'))
+#        tags = []
+#        for tag_obj in tags_obj:
+#            tags.append(tag_obj.get('name'))
+#        if '/managed/environment/prod' in tags:
+#            if '/managed/challenges/foundit' in tags:
+#                logging.warn('Tag "foundit" is already assigned to '
+#                             'VM %s. Skipping...', obj.get('id'))
+#            else:
+#                logging.info('Assigning tag "foundit" to VM %s', obj.get('id'))
+#                api.vms.tags.assign_by_name(obj.get('id'),
+#                                            '/managed/challenges/foundit')
 
 
 def test_providers(api):
