@@ -1,13 +1,13 @@
 '''Interface for /api/vms'''
 from .utils import CloudformsBase, update_params
-from .v1_tags import CloudformsTags
+from .v1_tags import CloudformsServiceTags
 
 
 class CloudformsVMS(CloudformsBase):
     '''VMS interface'''
     def __init__(self, endpoint, logger):
         CloudformsBase.__init__(self, endpoint, logger)
-        self.tags = CloudformsTags('vms', endpoint, logger)
+        self.tags = CloudformsServiceTags('vms', endpoint, logger)
 
     def list(self, _id='', params=None):
         '''Get one or more VM objects

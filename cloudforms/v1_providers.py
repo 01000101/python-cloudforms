@@ -1,11 +1,13 @@
 '''Interface for /api/providers'''
 from .utils import CloudformsBase, update_params
+from .v1_tags import CloudformsServiceTags
 
 
 class CloudformsProviders(CloudformsBase):
     '''Providers interface'''
     def __init__(self, endpoint, logger):
         CloudformsBase.__init__(self, endpoint, logger)
+        self.tags = CloudformsServiceTags('providers', endpoint, logger)
 
     def list(self, _id='', params=None):
         '''Get one or more provider objects
