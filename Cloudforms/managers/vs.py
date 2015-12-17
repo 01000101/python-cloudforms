@@ -9,8 +9,10 @@ from Cloudforms.utils import update_params
 
 class VSManager(object):
     '''Manages Virtual Servers.
+
     :param Cloudforms.API.Client client: an API client instance
     Example::
+
         import Cloudforms
         client = Cloudforms.Client()
         vs_mgr = Cloudforms.VSManager(client)
