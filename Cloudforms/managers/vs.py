@@ -22,11 +22,12 @@ class VSManager(object):
     def __init__(self, client):
         self.client = client
 
-    def get_instance(self, params=None):
+    def get_instance(self, _id, params=None):
         '''Retrieve details about a virtual server on the account
 
+        :param string _id: Specifies which virtual server the request is for
         :param dict params: response-level options (attributes, limit, etc.)
-        :returns: Returns a dictionary representing the matching virtual server
+        :returns: Dictionary representing the matching virtual server
 
         Example::
 
@@ -36,13 +37,13 @@ class VSManager(object):
                 vs_details = vs_mgr.get_instance(instance['id'])
         '''
         params = update_params(params, {'expand': 'resources'})
-        return self.client.call('get', '/vms', params=params)
+        return self.client.call('get', '/vms/%s' % _id, params=params)
 
     def list_instances(self, params=None):
         '''Retrieve a list of all virtual servers on the account
 
         :param dict params: response-level options (attributes, limit, etc.)
-        :returns: Returns a list of dictionaries representing the matching
+        :returns: List of dictionaries representing the matching
                   virtual server
 
         Example::
@@ -59,7 +60,7 @@ class VSManager(object):
         :param string _id: Specifies which virtual server the request is for
         :param string action: The action to request (start, stop, suspend, etc.)
         :param dict params: Additional POST request data
-        :returns: Returns a task request dictionary (see TaskManager)
+        :returns: Task request dictionary (see TaskManager)
 
         Example::
 
@@ -76,7 +77,7 @@ class VSManager(object):
 
         :param string _id: Specifies which virtual server the request is for
         :param dict params: Additional POST request data
-        :returns: Returns a task request dictionary (see TaskManager)
+        :returns: Task request dictionary (see TaskManager)
 
         Example::
 
@@ -92,7 +93,7 @@ class VSManager(object):
 
         :param string _id: Specifies which virtual server the request is for
         :param dict params: Additional POST request data
-        :returns: Returns a task request dictionary (see TaskManager)
+        :returns: Task request dictionary (see TaskManager)
 
         Example::
 
@@ -108,7 +109,7 @@ class VSManager(object):
 
         :param string _id: Specifies which virtual server the request is for
         :param dict params: Additional POST request data
-        :returns: Returns a task request dictionary (see TaskManager)
+        :returns: Task request dictionary (see TaskManager)
 
         Example::
 
@@ -124,7 +125,7 @@ class VSManager(object):
 
         :param string _id: Specifies which virtual server the request is for
         :param dict params: Additional POST request data
-        :returns: Returns a task request dictionary (see TaskManager)
+        :returns: Task request dictionary (see TaskManager)
 
         Example::
 
