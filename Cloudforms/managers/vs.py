@@ -1,7 +1,8 @@
 '''
     Cloudforms.VSManager
-    ~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~
     VS Manager (abstracts virtual machines and cloud instances)
+
     :license: MIT, see LICENSE for more details.
 '''
 from Cloudforms.utils import update_params
@@ -11,6 +12,7 @@ class VSManager(object):
     '''Manages Virtual Servers.
 
     :param Cloudforms.API.Client client: an API client instance
+
     Example::
 
         import Cloudforms
@@ -22,9 +24,12 @@ class VSManager(object):
 
     def get_instance(self, params=None):
         '''Retrieve details about a virtual server on the account
+
         :param dict params: response-level options (attributes, limit, etc.)
         :returns: Returns a dictionary representing the matching virtual server
+
         Example::
+
             # Gets a list of all virtual server instances (returns IDs only)
             instances = vs_mgr.list_instances({'attributes': 'id'})
             for instance in instances:
@@ -35,10 +40,13 @@ class VSManager(object):
 
     def list_instances(self, params=None):
         '''Retrieve a list of all virtual servers on the account
+
         :param dict params: response-level options (attributes, limit, etc.)
         :returns: Returns a list of dictionaries representing the matching
-        virtual server
+                  virtual server
+
         Example::
+
             # Gets a list of all virtual server instances (returns IDs only)
             instances = vs_mgr.list_instances({'attributes': 'id'})
         '''
@@ -47,11 +55,14 @@ class VSManager(object):
 
     def perform_action(self, _id, action, params=None):
         '''Sends a request to perform an action on a virtual server
+
         :param string _id: Specifies which virtual server the request is for
         :param string action: The action to request (start, stop, suspend, etc.)
         :param dict params: Additional POST request data
         :returns: Returns a task request dictionary (see TaskManager)
+
         Example::
+
             # Gets a list of all virtual server instances
             for vsi in vs_mgr.list_instances():
                 # Send requests to start all virtual server instances
@@ -62,10 +73,13 @@ class VSManager(object):
 
     def start_instance(self, _id, params=None):
         '''Sends a request to start a virtual server
+
         :param string _id: Specifies which virtual server the request is for
         :param dict params: Additional POST request data
         :returns: Returns a task request dictionary (see TaskManager)
+
         Example::
+
             # Gets a list of all virtual server instances
             for vsi in vs_mgr.list_instances():
                 # Send requests to start all virtual server instances
@@ -75,10 +89,13 @@ class VSManager(object):
 
     def stop_instance(self, _id, params=None):
         '''Sends a request to stop a virtual server
+
         :param string _id: Specifies which virtual server the request is for
         :param dict params: Additional POST request data
         :returns: Returns a task request dictionary (see TaskManager)
+
         Example::
+
             # Gets a list of all virtual server instances
             for vsi in vs_mgr.list_instances():
                 # Send requests to stop all virtual server instances
@@ -88,10 +105,13 @@ class VSManager(object):
 
     def suspend_instance(self, _id, params=None):
         '''Sends a request to suspend a virtual server
+
         :param string _id: Specifies which virtual server the request is for
         :param dict params: Additional POST request data
         :returns: Returns a task request dictionary (see TaskManager)
+
         Example::
+
             # Gets a list of all virtual server instances
             for vsi in vs_mgr.list_instances():
                 # Send requests to suspend all virtual server instances
@@ -101,10 +121,13 @@ class VSManager(object):
 
     def delete_instance(self, _id, params=None):
         '''Sends a request to delete a virtual server
+
         :param string _id: Specifies which virtual server the request is for
         :param dict params: Additional POST request data
         :returns: Returns a task request dictionary (see TaskManager)
+
         Example::
+
             # Gets a list of all virtual server instances
             for vsi in vs_mgr.list_instances():
                 # Send requests to delete all virtual server instances
