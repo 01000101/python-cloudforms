@@ -52,3 +52,28 @@ class TaskManager(object):
         '''
         params = update_params(params, {'expand': 'resources'})
         return self.client.call('get', '/tasks', params=params)
+
+    def wait_for_task(self, _id, state='finished', params=None):
+        '''Waits for a task to reach a certain state
+
+        :param string state: wait until the task reaches this state
+                             (case insensitive)
+        :param dict params: response-level options (attributes, limit, etc.)
+        :returns bool: **True** on success, **False** on error or timeout
+
+        Example::
+
+            # Gets a list of all virtual servers
+            vms = vs_mgr.list_instances()
+            for vm in vms:
+                # Send a request to stop the virtual server
+                task = vs_mgr.stop_instance(vms.get('id'))
+                # Wait for the task to finish and collect the result
+                task_succeeded = task_mgr.wait_for_task(task.get('id'))
+        '''
+        while True:
+            task = self.get_task(_id, params=params)
+            if not task or not task.get('state'):
+                return False
+            elif task.get('state').lower() == state.lower():
+                return True
