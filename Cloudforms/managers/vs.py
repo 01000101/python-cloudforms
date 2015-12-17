@@ -35,7 +35,7 @@ class VSManager(object):
         '''Retrieve a list of all virtual servers on the account
         :param dict params: response-level options (attributes, limit, etc.)
         :returns: Returns a list of dictionaries representing the matching
-                  virtual server
+        virtual server
         Example::
             # Gets a list of all virtual server instances (returns IDs only)
             instances = vs_mgr.list_instances({'attributes': 'id'})
