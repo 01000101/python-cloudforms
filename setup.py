@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 setup(
-    name='cloudforms',
+    name='Cloudforms',
     version='0.1.1',
     install_requires=[
         "requests"
@@ -12,7 +12,7 @@ setup(
     url='http://github.com/01000101',
     author='Joshua Cornutt',
     author_email='jcornutt@gmail.com',
-    packages=['cloudforms'],
+    packages=['Cloudforms'],
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',

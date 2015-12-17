@@ -1,6 +1,8 @@
 '''Red Hat Cloudforms REST API interface'''
 import logging
-from cloudforms import Cloudforms
+from os import environ
+import unittest
+import Cloudforms
 
 # Set our logging format
 logging.basicConfig(
@@ -8,54 +10,46 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s [%(funcName)s():%(lineno)d] %(message)s'
 )
 
-
-def test_tasks(api):
-    '''Performs non-destructive tasks tests'''
-    api.tasks.list()
-
-
-def test_vms(api):
-    '''Performs non-destructive VMs tests'''
-    objs = api.vms.list()
-    for obj in objs:
-        api.vms.tags.list(obj.get('id'))
-#        tags_obj = api.vms.tags.list(obj.get('id'))
-#        tags = []
-#        for tag_obj in tags_obj:
-#            tags.append(tag_obj.get('name'))
-#        if '/managed/environment/prod' in tags:
-#            if '/managed/challenges/foundit' in tags:
-#                logging.warn('Tag "foundit" is already assigned to '
-#                             'VM %s. Skipping...', obj.get('id'))
-#            else:
-#                logging.info('Assigning tag "foundit" to VM %s', obj.get('id'))
-#                api.vms.tags.assign_by_name(obj.get('id'),
-#                                            '/managed/challenges/foundit')
+CLOUDFORMS_HOST = environ.get('CLOUDFORMS_HOST')
+CLOUDFORMS_USERNAME = environ.get('CLOUDFORMS_USERNAME')
+CLOUDFORMS_PASSWORD = environ.get('CLOUDFORMS_PASSWORD')
+AWS_REGION = environ.get('AWS_REGION')
+AWS_ACCESS_KEY = environ.get('AWS_ACCESS_KEY')
+AWS_SECRET_KEY = environ.get('AWS_SECRET_KEY')
+AWS_NAME = 'PythonCF_Test'
+AWS_PROVIDER = 'EmsAmazon'
 
 
-def test_providers(api):
-    '''Performs non-destructive provider tests'''
-    api.providers.list()
-    api.providers.refresh_all()
-
-
-def main():
-    '''Entry point'''
-    logging.info('Starting Cloudforms API tests')
-    api = Cloudforms(
-        host='192.168.122.99',
-        password='95RyXaR1OA5q',
+def get_client():
+    '''Gets a sugared connection to the client'''
+    return Cloudforms.Client(
+        host=CLOUDFORMS_HOST,
+        username=CLOUDFORMS_USERNAME,
+        password=CLOUDFORMS_PASSWORD,
         logger=logging)
 
-    logging.info('Test tasks interface')
-    test_tasks(api)
 
-    logging.info('Test vms interface')
-    test_vms(api)
+class TestInputs(unittest.TestCase):
+    '''Generic tests'''
+    def test_env(self):
+        '''Tests environment variables'''
+        self.assertTrue(CLOUDFORMS_HOST)
+        self.assertTrue(CLOUDFORMS_USERNAME)
+        self.assertTrue(CLOUDFORMS_PASSWORD)
 
-    logging.info('Test providers interface')
-    test_providers(api)
 
+class TestVSManager(unittest.TestCase):
+    '''Tests VSManager'''
+    def test_list(self):
+        '''Tests VSManager.list_instances()'''
+        client = get_client()
+        vs_mgr = Cloudforms.VSManager(client)
+        # Test without params
+        res = vs_mgr.list_instances()
+        self.assertTrue(isinstance(res, list))
+        # Test with params
+        res = vs_mgr.list_instances({'attributes': 'id,name'})
+        self.assertTrue(isinstance(res, list))
 
 if __name__ == '__main__':
-    main()
+    unittest.main()

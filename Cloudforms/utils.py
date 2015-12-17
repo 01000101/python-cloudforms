@@ -14,13 +14,14 @@ def update_params(params, updates):
     return params
 
 
+# pylint: disable=too-few-public-methods
 class CloudformsBase(object):
     '''Base class that all other classes inherit from'''
     def __init__(self, endpoint, logger=None):
         self.endpoint = endpoint
         self.log = logger
 
-    def request(self, method, path, data=None, params=None):
+    def call(self, method, path, data=None, params=None):
         '''Makes an API call'''
         if self.log:
             self.log.info('API Call: [%s] %s://%s:%s@%s/api%s [%s]' % (
@@ -44,8 +45,8 @@ class CloudformsBase(object):
             params=params,
             verify=False)
         if res.status_code not in [200, 201]:
-            return dict()
+            return []
         else:
             obj = res.json()
             self.log.debug('call_res: %s', obj)
-            return obj if not obj.get('resources') else obj.get('resources')
+            return obj if obj.get('resources') is None else obj.get('resources')
