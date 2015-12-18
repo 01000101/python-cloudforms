@@ -3,8 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Cloudforms API Python Client's documentation!
+Cloudforms API Python Client's documentation!
 ========================================================
+
+This is the documentation for the community-supported Red Hat Cloudforms (ManageIQ) Python API client.
 
 Contents:
 
@@ -15,10 +17,34 @@ Contents:
    api/*
 
 
+Examples
+========
+
+List all virtual servers for the account::
+
+    from Cloudforms import (
+        Client,
+        VSManager
+    )
+
+    client = Client(
+        username='admin',
+        password='smartvm',
+        host='127.0.0.1'
+    )
+    vs_mgr = VSManager(client)
+    instances = vs_mgr.list_instances()
+    for instance in instances:
+        print 'Server #%s: %s (%s)' % (
+            instance.get('id'),
+            instance.get('name'),
+            instance.get('raw_power_state')
+        )
+
 
 External Links
 ==============
 .. toctree::
-    
+
     Cloudforms API Documentation <https://access.redhat.com/documentation/en/red-hat-cloudforms/>
     Source on GitHub <https://github.com/01000101/python-cloudforms/>
