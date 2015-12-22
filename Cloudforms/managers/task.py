@@ -69,7 +69,7 @@ class TaskManager(object):
                 # Send a request to stop the virtual server
                 task = vs_mgr.stop_instance(vms.get('id'))
                 # Wait for the task to finish and collect the result
-                task_succeeded = task_mgr.wait_for_task(task.get('id'))
+                task_succeeded = task_mgr.wait_for_task(task.get('task_id'))
         '''
         while True:
             task = self.get_task(_id, params=params)
