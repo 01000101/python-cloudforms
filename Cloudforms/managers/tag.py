@@ -7,8 +7,8 @@
 '''
 from Cloudforms.utils import (
     update_params,
-    returns_object,
-    returns_collection
+    normalize_object,
+    normalize_collection
 )
 
 
@@ -26,7 +26,6 @@ class TagManager(object):
     def __init__(self, client):
         self.client = client
 
-    @returns_object
     def get_tag(self, _id, params=None):
         '''Retrieve details about a tag on the account
 
@@ -42,9 +41,9 @@ class TagManager(object):
                 tag_details = tag_mgr.get_tag(tag['id'])
         '''
         params = update_params(params, {'expand': 'resources'})
-        return self.client.call('get', '/tags/%s' % _id, params=params)
+        return normalize_object(
+            self.client.call('get', '/tags/%s' % _id, params=params))
 
-    @returns_collection
     def list_tags(self, params=None):
         '''Retrieve a list of all tags on the account
 
@@ -57,4 +56,5 @@ class TagManager(object):
             tags = tag_mgr.list_tags({'attributes': 'id'})
         '''
         params = update_params(params, {'expand': 'resources'})
-        return self.client.call('get', '/tags', params=params)
+        return normalize_collection(
+            self.client.call('get', '/tags', params=params))

@@ -7,8 +7,8 @@
 '''
 from Cloudforms.utils import (
     update_params,
-    returns_object,
-    returns_collection
+    normalize_object,
+    normalize_collection
 )
 
 
@@ -26,7 +26,6 @@ class TaskManager(object):
     def __init__(self, client):
         self.client = client
 
-    @returns_object
     def get_task(self, _id, params=None):
         '''Retrieve details about a task on the account
 
@@ -42,9 +41,9 @@ class TaskManager(object):
                 task_details = task_mgr.get_task(task['id'])
         '''
         params = update_params(params, {'expand': 'resources'})
-        return self.client.call('get', '/tasks/%s' % _id, params=params)
+        return normalize_object(
+            self.client.call('get', '/tasks/%s' % _id, params=params))
 
-    @returns_collection
     def list_tasks(self, params=None):
         '''Retrieve a list of all tasks on the account
 
@@ -57,7 +56,8 @@ class TaskManager(object):
             tasks = task_mgr.list_tasks({'attributes': 'id'})
         '''
         params = update_params(params, {'expand': 'resources'})
-        return self.client.call('get', '/tasks', params=params)
+        return normalize_collection(
+            self.client.call('get', '/tasks', params=params))
 
     def wait_for_task(self, _id, state='finished', params=None):
         '''Waits for a task to reach a certain state

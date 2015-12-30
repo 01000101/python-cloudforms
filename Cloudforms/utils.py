@@ -15,22 +15,14 @@ def update_params(params, updates):
     return params
 
 
-def returns_object(func):
+def normalize_object(ret):
     '''Returns a single object'''
-    def func_wrapper(*args, **kwargs):
-        '''Normalizes the object'''
-        ret = func(*args, **kwargs)
-        return ret if not isinstance(ret, list) else ret[0]
-    return func_wrapper
+    return ret if not isinstance(ret, list) else ret[0]
 
 
-def returns_collection(func):
+def normalize_collection(ret):
     '''Returns a collection'''
-    def func_wrapper(*args, **kwargs):
-        '''Normalizes the collection'''
-        ret = func(*args, **kwargs)
-        return ret if isinstance(ret, list) else [ret]
-    return func_wrapper
+    return ret if isinstance(ret, list) else [ret]
 
 
 # pylint: disable=too-few-public-methods

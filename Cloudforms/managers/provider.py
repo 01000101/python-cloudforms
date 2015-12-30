@@ -7,8 +7,8 @@
 '''
 from Cloudforms.utils import (
     update_params,
-    returns_object,
-    returns_collection
+    normalize_object,
+    normalize_collection
 )
 
 
@@ -26,7 +26,6 @@ class ProviderManager(object):
     def __init__(self, client):
         self.client = client
 
-    @returns_object
     def get_provider(self, _id, params=None):
         '''Retrieve details about a provider on the account
 
@@ -42,9 +41,9 @@ class ProviderManager(object):
                 provider_details = provider_mgr.get_provider(provider['id'])
         '''
         params = update_params(params, {'expand': 'resources'})
-        return self.client.call('get', '/providers/%s' % _id, params=params)
+        return normalize_object(
+            self.client.call('get', '/providers/%s' % _id, params=params))
 
-    @returns_collection
     def list_providers(self, params=None):
         '''Retrieve a list of all providers on the account
 
@@ -57,9 +56,9 @@ class ProviderManager(object):
             providers = provider_mgr.list_providers({'attributes': 'id'})
         '''
         params = update_params(params, {'expand': 'resources'})
-        return self.client.call('get', '/providers', params=params)
+        return normalize_collection(
+            self.client.call('get', '/providers', params=params))
 
-    @returns_object
     def perform_action(self, _id, action, params=None):
         '''Sends a request to perform an action on a provider
 
@@ -76,9 +75,9 @@ class ProviderManager(object):
                 provider_mgr.perform_action(provider['id'], 'refresh')
         '''
         params = update_params(params, {'action': action})
-        return self.client.call('post', '/providers/%s' % _id, data=params)
+        return normalize_object(
+            self.client.call('post', '/providers/%s' % _id, data=params))
 
-    @returns_object
     def create_provider(self, params=None):
         '''Creates a new provider on the account (pass-through params)
 
@@ -101,7 +100,8 @@ class ProviderManager(object):
             # Refresh the provider
             provider_mgr.refresh_provider(provider['id'])
         '''
-        return self.client.call('post', '/providers', data=params)
+        return normalize_object(
+            self.client.call('post', '/providers', data=params))
 
     # pylint: disable=too-many-arguments
     def create_amazon_provider(self, name, region,
@@ -138,7 +138,6 @@ class ProviderManager(object):
             }
         }))
 
-    @returns_object
     def delete_provider(self, _id, params=None):
         '''Sends a request to delete a provider
 
@@ -155,9 +154,9 @@ class ProviderManager(object):
                 # Wait for the request to be processed
                 task_mgr.wait_for_task(task.get('task_id'))
         '''
-        return self.perform_action(_id, 'delete', params)
+        return normalize_object(
+            self.perform_action(_id, 'delete', params))
 
-    @returns_object
     def refresh_provider(self, _id, params=None):
         '''Sends a request to refresh a provider
 
@@ -174,9 +173,9 @@ class ProviderManager(object):
                 if not res or not res.get('success'):
                     raise RuntimeError('An error occurred')
         '''
-        return self.perform_action(_id, 'refresh', params)
+        return normalize_object(
+            self.perform_action(_id, 'refresh', params))
 
-    @returns_object
     def update_provider(self, _id, params=None):
         '''Sends a request to update a provider
 
@@ -200,4 +199,5 @@ class ProviderManager(object):
                     }
                 )
         '''
-        return self.perform_action(_id, 'edit', params)
+        return normalize_object(
+            self.perform_action(_id, 'edit', params))
