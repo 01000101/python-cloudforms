@@ -5,7 +5,11 @@
 
     :license: MIT, see LICENSE for more details.
 '''
-from Cloudforms.utils import update_params
+from Cloudforms.utils import (
+    update_params,
+    returns_object,
+    returns_collection
+)
 
 
 class ProviderManager(object):
@@ -22,6 +26,7 @@ class ProviderManager(object):
     def __init__(self, client):
         self.client = client
 
+    @returns_object
     def get_provider(self, _id, params=None):
         '''Retrieve details about a provider on the account
 
@@ -39,6 +44,7 @@ class ProviderManager(object):
         params = update_params(params, {'expand': 'resources'})
         return self.client.call('get', '/providers/%s' % _id, params=params)
 
+    @returns_collection
     def list_providers(self, params=None):
         '''Retrieve a list of all providers on the account
 
@@ -53,6 +59,7 @@ class ProviderManager(object):
         params = update_params(params, {'expand': 'resources'})
         return self.client.call('get', '/providers', params=params)
 
+    @returns_object
     def perform_action(self, _id, action, params=None):
         '''Sends a request to perform an action on a provider
 
@@ -71,6 +78,7 @@ class ProviderManager(object):
         params = update_params(params, {'action': action})
         return self.client.call('post', '/providers/%s' % _id, data=params)
 
+    @returns_object
     def create_provider(self, params=None):
         '''Creates a new provider on the account (pass-through params)
 
@@ -121,15 +129,16 @@ class ProviderManager(object):
             provider_mgr.refresh_provider(provider['id'])
         '''
         return self.create_provider(update_params(params, {
-            'type': 'EmsAmazon',
+            'type': 'ManageIQ::Providers::Amazon::CloudManager',
             'name': name,
-            'region': region,
+            'provider_region': region,
             'credentials': {
                 'userid': access_key,
                 'password': secret_key
             }
         }))
 
+    @returns_object
     def delete_provider(self, _id, params=None):
         '''Sends a request to delete a provider
 
@@ -148,6 +157,7 @@ class ProviderManager(object):
         '''
         return self.perform_action(_id, 'delete', params)
 
+    @returns_object
     def refresh_provider(self, _id, params=None):
         '''Sends a request to refresh a provider
 
@@ -164,8 +174,9 @@ class ProviderManager(object):
                 if not res or not res.get('success'):
                     raise RuntimeError('An error occurred')
         '''
-        return self.perform_action(_id, 'delete', params)
+        return self.perform_action(_id, 'refresh', params)
 
+    @returns_object
     def update_provider(self, _id, params=None):
         '''Sends a request to update a provider
 
@@ -189,4 +200,4 @@ class ProviderManager(object):
                     }
                 )
         '''
-        return self.perform_action(_id, 'delete', params)
+        return self.perform_action(_id, 'edit', params)

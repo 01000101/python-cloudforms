@@ -5,7 +5,11 @@
 
     :license: MIT, see LICENSE for more details.
 '''
-from Cloudforms.utils import update_params
+from Cloudforms.utils import (
+    update_params,
+    returns_object,
+    returns_collection
+)
 
 
 class VSManager(object):
@@ -22,6 +26,7 @@ class VSManager(object):
     def __init__(self, client):
         self.client = client
 
+    @returns_object
     def get_instance(self, _id, params=None):
         '''Retrieve details about a virtual server on the account
 
@@ -39,6 +44,7 @@ class VSManager(object):
         params = update_params(params, {'expand': 'resources'})
         return self.client.call('get', '/vms/%s' % _id, params=params)
 
+    @returns_collection
     def list_instances(self, params=None):
         '''Retrieve a list of all virtual servers on the account
 
@@ -54,6 +60,7 @@ class VSManager(object):
         params = update_params(params, {'expand': 'resources'})
         return self.client.call('get', '/vms', params=params)
 
+    @returns_object
     def perform_action(self, _id, action, params=None):
         '''Sends a request to perform an action on a virtual server
 
@@ -72,6 +79,7 @@ class VSManager(object):
         params = update_params(params, {'action': action})
         return self.client.call('post', '/vms/%s' % _id, data=params)
 
+    @returns_object
     def start_instance(self, _id, params=None):
         '''Sends a request to start a virtual server
 
@@ -88,6 +96,7 @@ class VSManager(object):
         '''
         return self.perform_action(_id, 'start', params)
 
+    @returns_object
     def stop_instance(self, _id, params=None):
         '''Sends a request to stop a virtual server
 
@@ -104,6 +113,7 @@ class VSManager(object):
         '''
         return self.perform_action(_id, 'stop', params)
 
+    @returns_object
     def suspend_instance(self, _id, params=None):
         '''Sends a request to suspend a virtual server
 
@@ -120,6 +130,7 @@ class VSManager(object):
         '''
         return self.perform_action(_id, 'suspend', params)
 
+    @returns_object
     def delete_instance(self, _id, params=None):
         '''Sends a request to delete a virtual server
 

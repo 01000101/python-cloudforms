@@ -5,7 +5,11 @@
 
     :license: MIT, see LICENSE for more details.
 '''
-from Cloudforms.utils import update_params
+from Cloudforms.utils import (
+    update_params,
+    returns_object,
+    returns_collection
+)
 
 
 class TaskManager(object):
@@ -22,6 +26,7 @@ class TaskManager(object):
     def __init__(self, client):
         self.client = client
 
+    @returns_object
     def get_task(self, _id, params=None):
         '''Retrieve details about a task on the account
 
@@ -39,6 +44,7 @@ class TaskManager(object):
         params = update_params(params, {'expand': 'resources'})
         return self.client.call('get', '/tasks/%s' % _id, params=params)
 
+    @returns_collection
     def list_tasks(self, params=None):
         '''Retrieve a list of all tasks on the account
 

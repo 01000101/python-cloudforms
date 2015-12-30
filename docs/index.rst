@@ -1,12 +1,12 @@
-.. Cloudforms API Python Client documentation master file, created by
+.. Cloudforms API v2 Python Client documentation master file, created by
    sphinx-quickstart on Thu Dec 17 00:22:54 2015.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Cloudforms API Python Client's documentation!
+Cloudforms API v2 Python Client's documentation!
 ========================================================
 
-This is the documentation for the community-supported Red Hat Cloudforms (ManageIQ) Python API client.
+This is the documentation for the community-supported Red Hat Cloudforms (ManageIQ) API v2 Python client.
 
 Contents:
 

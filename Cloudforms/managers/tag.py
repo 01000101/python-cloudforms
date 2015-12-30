@@ -5,7 +5,11 @@
 
     :license: MIT, see LICENSE for more details.
 '''
-from Cloudforms.utils import update_params
+from Cloudforms.utils import (
+    update_params,
+    returns_object,
+    returns_collection
+)
 
 
 class TagManager(object):
@@ -22,6 +26,7 @@ class TagManager(object):
     def __init__(self, client):
         self.client = client
 
+    @returns_object
     def get_tag(self, _id, params=None):
         '''Retrieve details about a tag on the account
 
@@ -39,6 +44,7 @@ class TagManager(object):
         params = update_params(params, {'expand': 'resources'})
         return self.client.call('get', '/tags/%s' % _id, params=params)
 
+    @returns_collection
     def list_tags(self, params=None):
         '''Retrieve a list of all tags on the account
 
