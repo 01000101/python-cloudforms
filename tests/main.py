@@ -58,11 +58,11 @@ class TestVSManager(unittest.TestCase):
         client = get_client()
         vs_mgr = Cloudforms.VSManager(client)
         # Test without params
-        res = vs_mgr.list_instances()
+        res = vs_mgr.list()
         logging.info('res: %s [%s]', res, type(res))
         self.assertTrue(isinstance(res, list))
         # Test with params
-        res = vs_mgr.list_instances({'attributes': 'id,name'})
+        res = vs_mgr.list({'attributes': 'id,name'})
         logging.info('res: %s [%s]', res, type(res))
         self.assertTrue(isinstance(res, list))
 
@@ -74,7 +74,7 @@ class TestProviderManager(unittest.TestCase):
         client = get_client()
         prov_mgr = Cloudforms.ProviderManager(client)
         logging.info('Creating Amazon provider')
-        prov = prov_mgr.create_amazon_provider(
+        prov = prov_mgr.create_amazon(
             AWS_NAME,
             'us-east-1',
             AWS_ACCESS_KEY,
@@ -86,21 +86,41 @@ class TestProviderManager(unittest.TestCase):
         '''Tests ProviderManager.refresh_provider()'''
         client = get_client()
         prov_mgr = Cloudforms.ProviderManager(client)
-        provs = prov_mgr.list_providers()
+        provs = prov_mgr.list()
         for prov in provs:
             if prov.get('name') == AWS_NAME:
                 self.assertNotEqual(prov.get('id'), None)
-                prov_mgr.refresh_provider(prov.get('id'))
+                prov_mgr.refresh(prov.get('id'))
+
+    def test_tags_assign(self):
+        '''Tests ProviderManager.tags'''
+        client = get_client()
+        prov_mgr = Cloudforms.ProviderManager(client)
+        provs = prov_mgr.list()
+        for prov in provs:
+            if prov.get('name') == AWS_NAME:
+                self.assertNotEqual(prov.get('id'), None)
+                prov_mgr.tags.assign(prov.get('id'), ['/environment/prod'])
+
+    def test_tags_unassign(self):
+        '''Tests ProviderManager.tags'''
+        client = get_client()
+        prov_mgr = Cloudforms.ProviderManager(client)
+        provs = prov_mgr.list()
+        for prov in provs:
+            if prov.get('name') == AWS_NAME:
+                self.assertNotEqual(prov.get('id'), None)
+                prov_mgr.tags.unassign(prov.get('id'), ['/environment/prod'])
 
     def test_delete(self):
         '''Tests ProviderManager.delete_provider()'''
         client = get_client()
         prov_mgr = Cloudforms.ProviderManager(client)
-        provs = prov_mgr.list_providers()
+        provs = prov_mgr.list()
         for prov in provs:
             if prov.get('name') == AWS_NAME:
                 self.assertNotEqual(prov.get('id'), None)
-                prov_mgr.delete_provider(prov.get('id'))
+                prov_mgr.delete(prov.get('id'))
 
 if __name__ == '__main__':
     unittest.main()
