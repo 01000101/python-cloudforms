@@ -154,8 +154,7 @@ class ProviderManager(object):
                 # Wait for the request to be processed
                 task_mgr.wait_for_task(task.get('task_id'))
         '''
-        return normalize_object(
-            self.perform_action(_id, 'delete', params))
+        return self.perform_action(_id, 'delete', params)
 
     def refresh_provider(self, _id, params=None):
         '''Sends a request to refresh a provider
@@ -173,8 +172,7 @@ class ProviderManager(object):
                 if not res or not res.get('success'):
                     raise RuntimeError('An error occurred')
         '''
-        return normalize_object(
-            self.perform_action(_id, 'refresh', params))
+        return self.perform_action(_id, 'refresh', params)
 
     def update_provider(self, _id, params=None):
         '''Sends a request to update a provider
@@ -199,5 +197,4 @@ class ProviderManager(object):
                     }
                 )
         '''
-        return normalize_object(
-            self.perform_action(_id, 'edit', params))
+        return self.perform_action(_id, 'edit', params)

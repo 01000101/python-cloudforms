@@ -1,9 +1,9 @@
 '''Red Hat Cloudforms REST API interface'''
 import logging
 from os import environ
+from distutils.version import StrictVersion
 import unittest
 import Cloudforms
-from distutils.version import StrictVersion
 
 # Set our logging format
 logging.basicConfig(

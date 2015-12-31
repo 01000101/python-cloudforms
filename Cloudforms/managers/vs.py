@@ -93,8 +93,7 @@ class VSManager(object):
                 # Send requests to start all virtual server instances
                 vs_mgr.start_instance(vsi['id'])
         '''
-        return normalize_object(
-            self.perform_action(_id, 'start', params))
+        return self.perform_action(_id, 'start', params)
 
     def stop_instance(self, _id, params=None):
         '''Sends a request to stop a virtual server
@@ -110,8 +109,7 @@ class VSManager(object):
                 # Send requests to stop all virtual server instances
                 vs_mgr.stop_instance(vsi['id'])
         '''
-        return normalize_object(
-            self.perform_action(_id, 'stop', params))
+        return self.perform_action(_id, 'stop', params)
 
     def suspend_instance(self, _id, params=None):
         '''Sends a request to suspend a virtual server
@@ -127,8 +125,7 @@ class VSManager(object):
                 # Send requests to suspend all virtual server instances
                 vs_mgr.suspend_instance(vsi['id'])
         '''
-        return normalize_object(
-            self.perform_action(_id, 'suspend', params))
+        return self.perform_action(_id, 'suspend', params)
 
     def delete_instance(self, _id, params=None):
         '''Sends a request to delete a virtual server
@@ -144,5 +141,4 @@ class VSManager(object):
                 # Send requests to delete all virtual server instances
                 vs_mgr.delete_instance(vsi['id'])
         '''
-        return normalize_object(
-            self.perform_action(_id, 'delete', params))
+        return self.perform_action(_id, 'delete', params)
