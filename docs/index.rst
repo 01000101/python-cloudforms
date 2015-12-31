@@ -33,7 +33,7 @@ List all virtual servers for the account::
         host='127.0.0.1'
     )
     vs_mgr = VSManager(client)
-    instances = vs_mgr.list_instances()
+    instances = vs_mgr.list()
     for instance in instances:
         print 'Server #%s: %s (%s)' % (
             instance.get('id'),
