@@ -1,3 +1,5 @@
+_**This library is incomplete - Contributors wanted!**_
+
 # python-cloudforms
 Red Hat Cloudforms RESTful API v2 client written in Python.
 
