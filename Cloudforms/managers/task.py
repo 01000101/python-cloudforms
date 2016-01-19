@@ -5,6 +5,8 @@
 
     :license: MIT, see LICENSE for more details.
 '''
+from time import sleep
+from datetime import datetime, timedelta
 from Cloudforms.utils import (
     update_params,
     normalize_object,
@@ -59,11 +61,12 @@ class TaskManager(object):
         return normalize_collection(
             self.client.call('get', '/tasks', params=params))
 
-    def wait(self, _id, state='finished', params=None):
+    def wait(self, _id, timeout=30, state='finished', params=None):
         '''Waits for a task to reach a certain state
 
         :param string state: wait until the task reaches this state
                              (case insensitive)
+        :param integer timeout: operation timeout (in seconds)
         :param dict params: response-level options (attributes, limit, etc.)
         :returns bool: **True** on success, **False** on error or timeout
 
@@ -77,9 +80,12 @@ class TaskManager(object):
                 # Wait for the task to finish and collect the result
                 task_succeeded = task_mgr.wait(task.get('task_id'))
         '''
-        while True:
+        deadline = datetime.now() + timedelta(seconds=timeout)
+        while datetime.now() <= deadline:
             task = self.get(_id, params=params)
             if not task or not task.get('state'):
                 return False
             elif task.get('state').lower() == state.lower():
                 return True
+            sleep(1)
+        return False

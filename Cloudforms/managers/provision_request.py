@@ -5,6 +5,8 @@
 
     :license: MIT, see LICENSE for more details.
 '''
+from time import sleep
+from datetime import datetime, timedelta
 from Cloudforms.utils import (
     update_params,
     normalize_object,
@@ -84,17 +86,21 @@ class ProvisionRequestManager(object):
         return normalize_object(
             self.client.call('post', '/provision_requests', data=params))
 
-    def wait(self, _id, request_state='finished', params=None):
+    def wait(self, _id, timeout=30, request_state='finished', params=None):
         '''Waits for a provision request to reach a certain request_state
 
         :param string request_state: wait until the provision request reaches
                                      this request_state (case insensitive)
+        :param integer timeout: operation timeout (in seconds)
         :param dict params: response-level options (attributes, limit, etc.)
         :returns bool: **True** on success, **False** on error or timeout
         '''
-        while True:
+        deadline = datetime.now() + timedelta(seconds=timeout)
+        while datetime.now() <= deadline:
             preq = self.get(_id, params=params)
             if not preq or not preq.get('request_state'):
                 return False
             elif preq.get('request_state').lower() == request_state.lower():
                 return True
+            sleep(1)
+        return False
