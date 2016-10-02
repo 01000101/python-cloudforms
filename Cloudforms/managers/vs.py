@@ -64,7 +64,7 @@ class VSManager(object):
         '''Sends a request to perform an action on a virtual server
 
         :param string _id: Specifies which virtual server the request is for
-        :param string action: The action to request (start, stop, suspend, etc.)
+        :param string action: The action to request (start, stop, suspend)
         :param dict params: Additional POST request data
         :returns: Task request dictionary (see TaskManager)
 
