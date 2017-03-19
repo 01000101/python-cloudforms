@@ -12,7 +12,7 @@ setup(
     url='http://github.com/01000101',
     author='Joshua Cornutt',
     author_email='jcornutt@gmail.com',
-    packages=['Cloudforms'],
+    packages=['Cloudforms', 'Cloudforms.managers'],
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
